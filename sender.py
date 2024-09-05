@@ -2,14 +2,29 @@
 import serial
 import time
 
-port = serial.Serial('/dev/tty.usbserial-XXXX', 9600, timeout=1)
+PORT_NAME = '/dev/ttys006'
+
+port = serial.Serial(PORT_NAME, 9600, timeout=1)
 
 time.sleep(2)
 
-message = 'Hola desde python'
+message = 'Hola desde python\n'
 
-port.write(message.encode())
+try:
+    print('Inicia el script')
 
-port.close()
+    sequence = 0
 
-print(f'Mensaje enviado: ${message}')
+    while True:
+        port.write(message.encode())
+        print(f'Mensaje {sequence} enviado: {message.strip()}')
+
+        sequence += 1
+
+        time.sleep(1)
+
+except KeyboardInterrupt:
+    print('Script interrumpido')
+
+finally:
+    port.close()

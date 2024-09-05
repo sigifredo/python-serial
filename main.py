@@ -26,6 +26,8 @@ def send(port, message):
 
 
 def main(file: str, type: AppType):
+    port = None
+
     try:
         print(f'Abriendo "{file}"')
         port = serial.Serial(args.file, 9600, timeout=1)

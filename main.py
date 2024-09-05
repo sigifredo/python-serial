@@ -14,10 +14,10 @@ class AppType(enum.Enum):
     READER = 2
 
 
-def recive(port):
+def receive(port):
     if port.in_waiting > 0:
         message = port.readline().decode().strip()
-        print(f'Mensaje recibido: "{message}"')
+        print(f'Mensaje recibido: {message}')
 
 
 def send(port, message):
@@ -36,11 +36,12 @@ def main(file: str, type: AppType):
 
         while True:
             if type == AppType.READER:
-                recive(port)
+                receive(port)
             elif type == AppType.SENDER:
                 send(port, f'{random.randint(0, 100)}\n')
+                time.sleep(1)
 
-    except serial.SerialException as e:
+    except main.SerialException as e:
         print(f'[ERROR] Error abriendo el puerto "{file}"')
 
     except KeyboardInterrupt:

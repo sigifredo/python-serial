@@ -4,11 +4,13 @@ import time
 
 PORT_NAME = '/dev/ttys007'
 
-port = serial.Serial(PORT_NAME, 9600, timeout=1)
-
-time.sleep(2)
+port = None
 
 try:
+    port = serial.Serial(PORT_NAME, 9600, timeout=1)
+
+    time.sleep(2)
+
     print('Inicia script')
 
     sequence = 0
@@ -20,7 +22,13 @@ try:
 
             sequence += 1
 
+except serial.SerialException as e:
+    print(f'[ERROR] Error abriendo el puerto "{PORT_NAME}"')
+
 except KeyboardInterrupt:
     print('Interrupción manual')
 finally:
-    port.close()
+
+    if port:
+        print('Cerrando puerto serial')
+        port.close()

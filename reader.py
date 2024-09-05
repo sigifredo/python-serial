@@ -16,7 +16,7 @@ try:
     while True:
         if port.in_waiting > 0:
             message = port.readline().decode().strip()
-            print(f'Mensaje {sequence} recibido: {message}')
+            print(f'Mensaje #{sequence} recibido: {message}')
 
             sequence += 1
 

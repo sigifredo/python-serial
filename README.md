@@ -7,7 +7,7 @@ En primer lugar, es necesario crear el ambiente virtual, y en segundo, instalar 
 ```console
 python3 -m venv venv
 source venv/bin/activate
-pip3 install pyserial
+pip3 install pyserial pyinstaller
 ```
 
 ## Configuración de puertos seriales

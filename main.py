@@ -3,6 +3,7 @@
 from argparse import ArgumentParser
 
 import enum
+import json
 import os
 import random
 import serial
@@ -12,6 +13,17 @@ import time
 class AppType(enum.Enum):
     SENDER = 1
     READER = 2
+
+
+def readConfig():
+    try:
+        with open('./config.txt', 'r') as json_file:
+            return json.load(json_file)
+    except:
+        return {
+            'sender': '',
+            'reader': ''
+        }
 
 
 def receive(port):
@@ -28,7 +40,7 @@ def send(port, message):
 def main(file: str, type: AppType):
     try:
         print(f'Abriendo "{file}"')
-        port = serial.Serial(args.file, 9600, timeout=1)
+        port = serial.Serial(file, 9600, timeout=1)
 
         time.sleep(2)
 
@@ -78,22 +90,25 @@ if __name__ == '__main__':
         help='Tipo de ejecución del script: "s" para enviar mensajes, "r" para recibir'
     )
 
-    parser.add_argument(
-        'file',
-        type=str,
-        help='Ruta al puerto serial'
-    )
+    config = readConfig()
 
     args = parser.parse_args()
+    app_type = get_app_type(args.type)
 
-    if os.path.exists(args.file):
-        app_type = get_app_type(args.type)
-
-        if app_type == None:
-            print(
-                f'[ERROR] El tipo de ejecución del script es incorrecto: "{args.type}"'
-            )
-        else:
-            main(args.file, app_type)
+    if app_type == None:
+        print(
+            f'[ERROR] El tipo de ejecución del script es incorrecto: "{
+                args.type}"'
+        )
     else:
-        print(f'[ERROR] El archivo "{args.file}", no existe')
+        file = None
+
+        if app_type == AppType.READER:
+            file = config['reader']
+        else:
+            file = config['sender']
+
+        if os.path.exists(file):
+            main(file, app_type)
+        else:
+            print(f'[ERROR] El archivo "{file}", no existe')

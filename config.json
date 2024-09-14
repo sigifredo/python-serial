@@ -1,0 +1,4 @@
+{
+    "reader": "/dev/pts/6",
+    "sender": "/dev/pts/7"
+}

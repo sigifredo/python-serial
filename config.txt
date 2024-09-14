@@ -1,4 +1,0 @@
-{
-    "reader": "/dev/ttys011",
-    "sender": "/dev/ttys012"
-}

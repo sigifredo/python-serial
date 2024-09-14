@@ -17,7 +17,7 @@ class AppType(enum.Enum):
 
 def readConfig():
     try:
-        with open('./config.txt', 'r') as json_file:
+        with open('./config.json', 'r') as json_file:
             return json.load(json_file)
     except:
         return {
@@ -99,8 +99,7 @@ if __name__ == '__main__':
 
     if app_type == None:
         print(
-            f'[ERROR] El tipo de ejecución del script es incorrecto: "{
-                args.type}"'
+            f'[ERROR] El tipo de ejecución del script es incorrecto: "{args.type}"'
         )
     else:
         file = None
